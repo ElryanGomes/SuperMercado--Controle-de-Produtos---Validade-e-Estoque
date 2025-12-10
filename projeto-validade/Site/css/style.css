@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: #1e1e2e;
+    color: #f1f1f1;
+}
+
+header {
+    background: #282a36;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #44475a;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #8be9fd;
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    background: #6272a4;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-btn:hover {
+    background: #7082b8;
+}
+
+main {
+    padding: 30px;
+}
+
+.card {
+    background: #2b2d42;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 35px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+.hidden {
+    display: none;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #f8f8f2;
+}
+
+/* ---------- Formulário ---------- */
+
+.linha-form {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.linha-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.linha-form input,
+.linha-form select {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: #3e4157;
+    color: white;
+}
+
+.btnSalvar {
+    width: 100%;
+    padding: 12px;
+    background: #50fa7b;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btnSalvar:hover {
+    background: #61ff8b;
+}
+
+/* ---------- Tabelas ---------- */
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabela th {
+    background: #44475a;
+    padding: 10px;
+}
+
+.tabela td {
+    padding: 10px;
+    padding-left: 110px;
+    background: #3b3d52;
+    border-bottom: 1px solid #505267;
+}
+
+.tabela tr:hover td {
+    background: #4b4d66;
+}
+
+/* Filtro */
+
+.filtros {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.filtros input, .filtros select {
+    padding: 10px;
+    background: #3e4157;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}

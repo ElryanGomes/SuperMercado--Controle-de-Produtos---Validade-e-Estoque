@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Estoque</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div id="titulo" class="logo"></div>
+        <nav>
+            <button class="nav-btn" id="btnMostrarEstoque">Estoque</button>
+            <button class="nav-btn" id="btnAdicionarProduto">Adicionar Produto</button>
+            <button class="nav-btn" id="btnPertoVencer">Produtos próximos do vencimento</button>
+            <button class="nav-btn" id="btnVencidos">Produtos vencidos</button>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="secaoEstoque" class="card hidden">
+            <h2>Lista de Produtos</h2>
+
+            <div class="filtros">
+                <input type="text" id="buscar" placeholder="Buscar por nome...">
+                <select id="filtroTipo">
+                    <option value="todos">Todos</option>
+                    <option value="perecivel">Perecíveis</option>
+                    <option value="imperecivel">Imperecíveis</option>
+                </select>
+            </div>
+
+            <table id="tabelaProdutos" class="tabela">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Qtd</th>
+                        <th>Tipo</th>
+                        <th>Validade</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="corpoTabelaProdutos"></tbody>
+            </table>
+
+        </section>
+
+        <section id="secaoAdicionar" class="card hidden">
+            <h2>Adicionar Produto</h2>
+
+            <form id="formAdicionarProduto">
+
+                <input class="linha-form" type="text" id="codigo" placeholder="Código" required>
+                <input class="linha-form" type="text" id="nome" placeholder="Nome do Produto" required>
+                <input class="linha-form" type="number" id="preco" placeholder="Preço" required>
+                <input class="linha-form" type="number" id="quantidade" placeholder="Quantidade" required>
+                <input class="linha-form" type="text" id="status" placeholder="Status" required>
+                <input class="linha-form" type="text" id="distribuidor" placeholder="Distribuidor" required>
+
+                <div class="linha-form">
+                    <label>Tipo:</label>
+                    <select id="tipoProduto" required>
+                        <option value="perecivel">Perecível</option>
+                        <option value="imperecivel">Imperecível</option>
+                    </select>
+                </div>
+
+                <div class="linha-form" id="campoValidade">
+                    <label>Data de Validade:</label>
+                    <input type="date" id="dataValidade">
+                </div>
+
+                <button type="submit" class="btnSalvar">Salvar Produto</button>
+            </form>
+        </section>
+
+        <section id="secaoPertoVencer" class="card hidden">
+            <h2>Produtos próximos do vencimento</h2>
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Validade</th>
+                        <th>Dias faltando</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaPertoVencer"></tbody>
+            </table>
+        </section>
+
+        <section id="secaoVencidos" class="card hidden">
+            <h2>Produtos vencidos</h2>
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Validade</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaVencidos"></tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
