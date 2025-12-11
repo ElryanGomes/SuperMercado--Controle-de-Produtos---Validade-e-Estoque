@@ -7,7 +7,7 @@ export class ProdutoPerecivel extends Produto {
     constructor(codigo, nome, preco, quantidade, distribuidor, dataValidade) {
         super(codigo, nome, preco, quantidade, distribuidor);
         this.#dataValidade = dataValidade;
-        this.#status = " ";
+        this.verificarStatus(); 
         this.tipo = "perecivel";
     }
 
@@ -19,21 +19,24 @@ export class ProdutoPerecivel extends Produto {
         return this.#status;
     }
 
+
     verificarStatus() {
         const hoje = new Date();
         const validade = new Date(this.#dataValidade);
 
-        if (validade < hoje) {
-            this.#status = "Vencido";
-        } else {
-            const diasRestantes = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24));
+        const diasRestantes = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24));
 
-            if (diasRestantes <= 3) {
-                this.#status = "Perto de se vencer";
-            } else {
-                this.#status = "Ok";
-            }
+        if (diasRestantes < 0){
+            this.#status = "Vencido"
         }
+        else if (0 < diasRestantes && diasRestantes < 10 ){
+            this.#status = "Em Risco"
+        }
+        else {
+            this.#status = "Longe"
+        }
+
+        return this.#status;
     }
 
     info() {

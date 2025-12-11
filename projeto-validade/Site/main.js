@@ -4,8 +4,9 @@ import { Estoque } from "./classes/Estoque.js";
 
 const estoque = new Estoque();
 
-estoque.adicionarProduto(new ProdutoPerecivel("001", "Leite", 5.99, 10, "Laticínios BR", "2025-01-20"));
-estoque.adicionarProduto(new ProdutoPerecivel("002", "Iogurte", 3.50, 20, "Fazenda Feliz", "2024-12-28"));
+estoque.adicionarProduto(new ProdutoPerecivel("001", "Leite", 5.99, 10, "Laticínios BR", "2025-12-15"));
+estoque.adicionarProduto(new ProdutoPerecivel("002", "Iogurte", 3.50, 20, "Fazenda Feliz", "2025-12-28"));
+estoque.adicionarProduto(new ProdutoPerecivel("002", "Coca Cola 2L", 9.50, 20, "York", "2024-11-28"));
 estoque.adicionarProduto(new ProdutoImperecivel("003", "Arroz 5kg", 22.90, 15, "Cerealista Sul"));
 
 
@@ -26,23 +27,23 @@ function mostrarTela(tela) {
 
 // Botões do menu
 document.getElementById("btnMostrarEstoque").addEventListener("click", () => {
-    atualizarTabelaEstoque(); 
+    atualizarTabelaEstoque();
     mostrarTela(secaoEstoque);
-    console.log("abriu estoque")
+    // console.log("abriu estoque")
 });
 document.getElementById("btnAdicionarProduto").addEventListener("click", () => {
     mostrarTela(secaoAdicionar);
-    console.log("abriu adicionar")
+    // console.log("abriu adicionar")
 });
 document.getElementById("btnPertoVencer").addEventListener("click", () => {
     atualizarTabelaPertoVencer();
     mostrarTela(secaoPertoVencer);
-    console.log("abriu perto de vencer")
+    // console.log("abriu perto de vencer")
 });
 document.getElementById("btnVencidos").addEventListener("click", () => {
     atualizarTabelaVencidos();
     mostrarTela(secaoVencidos);
-    console.log("abriu vencidos")
+    // console.log("abriu vencidos")
 });
 
 
@@ -70,6 +71,51 @@ function atualizarTabelaEstoque() {
     });
 }
 
+// Tela de Adicionar
+const dadosAdicionarForm = document.getElementById("formAdicionarProduto")
+dadosAdicionarForm.addEventListener("submit", (evento) => {
+    evento.preventDefault();
+
+    const codigo = document.getElementById("codigo").value;
+    const nome = document.getElementById("nome").value;
+    const preco = parseFloat(document.getElementById("preco").value);
+    const quantidade = parseInt(document.getElementById("quantidade").value);
+    const distribuidor = document.getElementById("distribuidor").value;
+    const tipo = document.getElementById("tipoProduto").value;
+    const dataValidade = document.getElementById("dataValidade").value;
+
+
+    let novoProduto;
+
+    if (tipo === "perecivel") {
+        novoProduto = new ProdutoPerecivel(
+            codigo, nome, preco, quantidade, distribuidor, dataValidade
+        )
+    }
+    else if (tipo === "imperecivel") {
+        novoProduto = new ProdutoImperecivel(
+            codigo, nome, preco, quantidade, distribuidor
+        )
+    }
+
+    // const tipoProduto = document.getElementById("tipoProduto");
+    // const campoValidade = document.getElementById("campoValidade");
+
+    // tipoProduto.addEventListener("change", function () {
+    //     if (this.value === "perecivel") {
+    //         campoValidade.style.display = "block";
+    //     } else {
+    //         campoValidade.style.display = "none";
+    //     }
+    // });
+
+
+estoque.adicionarProduto(novoProduto)
+atualizarTabelaEstoque()
+evento.target.reset();
+})
+
+
 // Tela de Perto de Vencer
 function atualizarTabelaPertoVencer() {
     const corpo = document.getElementById("tabelaPertoVencer");
@@ -95,6 +141,7 @@ function atualizarTabelaPertoVencer() {
         });
 }
 
+
 // Tabela Vencidos
 function atualizarTabelaVencidos() {
     const corpo = document.getElementById("tabelaVencidos");
@@ -118,71 +165,6 @@ function atualizarTabelaVencidos() {
 
 atualizarTabelaEstoque();
 mostrarTela(secaoEstoque);
-
-
-
-
-
-
-
-
-
-
-
-
-// const formAdicionarProduto = document.getElementById("formAdicionarProduto");
-
-// formAdicionarProduto.addEventListener("submit", (e) => {
-//     e.preventDefault();
-
-//     const codigo = document.getElementById("codigo").value;
-//     const nome = document.getElementById("nome").value;
-//     const preco = parseFloat(document.getElementById("preco").value);
-//     const quantidade = parseInt(document.getElementById("quantidade").value);
-//     const distribuidor = document.getElementById("distribuidor").value;
-//     const tipo = document.getElementById("tipo").value;
-//     const validade = document.getElementById("validade").value;
-
-//     let produto;
-
-//     if (tipo === "perecivel") {
-//         produto = new ProdutoPerecivel(
-//             codigo, nome, preco, quantidade, distribuidor, validade
-//         );
-
-//         produto.verificarStatus(); // atualiza status automaticamente
-//     } else {
-//         produto = new ProdutoImperecivel(
-//             codigo, nome, preco, quantidade, distribuidor
-//         );
-//     }
-
-//     estoque.adicionarProduto(produto);
-//     atualizarLista();
-//     e.target.reset(); // limpa o formulário
-// });
-
-
-// function atualizarTabelaEstoque() {
-//     const corpo = document.getElementById("corpoTabelaProdutos");
-//     corpo.innerHTML = "";
-
-//     estoque.lista.forEach(produto => {
-//         const tr = document.createElement("tr");
-
-//         tr.innerHTML = `
-//             <td>${produto.codigo}</td>
-//             <td>${produto.nome}</td>
-//             <td>R$ ${produto.preco.toFixed(2)}</td>
-//             <td>${produto.quantidade}</td>
-//             <td>${produto instanceof ProdutoPerecivel ? "Perecível" : "Imperecível"}</td>
-//             <td>${produto.dataValidade ? produto.formatarValidade() : "-"}</td>
-//             <td>${produto.status || "-"}</td>
-//         `;
-
-//         corpo.appendChild(tr);
-//     });
-// }
 
 
 

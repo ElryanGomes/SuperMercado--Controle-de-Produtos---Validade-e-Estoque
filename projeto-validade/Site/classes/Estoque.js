@@ -41,19 +41,4 @@ export class Estoque {
             }
         });
     }
-
-    produtosPertoVencer() {
-        return this.#produtos.filter(p => 
-            p instanceof ProdutoPerecivel && 
-            p.status !== "VENCIDO" &&
-            p.status !== "LONGE DE VENCER"
-        );
-    }
-
-    produtosVencidos() {
-        return this.#produtos.filter(p => 
-            p instanceof ProdutoPerecivel &&
-            p.status === "VENCIDO"
-        );
-    }
 }

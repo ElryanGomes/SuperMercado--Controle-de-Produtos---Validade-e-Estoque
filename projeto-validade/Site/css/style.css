@@ -106,6 +106,10 @@ h2 {
 
 /* ---------- Tabelas ---------- */
 
+#campoValidade {
+    display: none;
+}
+
 .tabela {
     width: 100%;
     border-collapse: collapse;
@@ -119,7 +123,7 @@ h2 {
 
 .tabela td {
     padding: 10px;
-    padding-left: 110px;
+    padding-left: 70px;
     background: #3b3d52;
     border-bottom: 1px solid #505267;
 }
