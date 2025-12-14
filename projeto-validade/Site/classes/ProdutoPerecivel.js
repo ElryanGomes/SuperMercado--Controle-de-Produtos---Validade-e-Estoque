@@ -8,7 +8,7 @@ export class ProdutoPerecivel extends Produto {
         super(codigo, nome, preco, quantidade, distribuidor);
         this.#dataValidade = dataValidade;
         this.verificarStatus(); 
-        this.tipo = "perecivel";
+        this.tipo = "Perecivel";
     }
 
     get dataValidade() {

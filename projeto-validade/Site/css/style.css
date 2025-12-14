@@ -1,3 +1,6 @@
+/* ------------------------------------------ */
+/* RESET E BASE                               */
+/* ------------------------------------------ */
 * {
     margin: 0;
     padding: 0;
@@ -10,6 +13,9 @@ body {
     color: #f1f1f1;
 }
 
+/* ------------------------------------------ */
+/* HEADER                                     */
+/* ------------------------------------------ */
 header {
     background: #282a36;
     padding: 20px;
@@ -45,6 +51,9 @@ nav {
     background: #7082b8;
 }
 
+/* ------------------------------------------ */
+/* MAIN + CARDS                               */
+/* ------------------------------------------ */
 main {
     padding: 30px;
 }
@@ -54,7 +63,7 @@ main {
     padding: 25px;
     border-radius: 8px;
     margin-bottom: 35px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
 .hidden {
@@ -66,50 +75,9 @@ h2 {
     color: #f8f8f2;
 }
 
-/* ---------- Formulário ---------- */
-
-.linha-form {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-}
-
-.linha-form label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.linha-form input,
-.linha-form select {
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background: #3e4157;
-    color: white;
-}
-
-.btnSalvar {
-    width: 100%;
-    padding: 12px;
-    background: #50fa7b;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s;
-    margin-top: 10px;
-}
-
-.btnSalvar:hover {
-    background: #61ff8b;
-}
-
-/* ---------- Tabelas ---------- */
-
-#campoValidade {
-    display: none;
-}
-
+/* ------------------------------------------ */
+/* TABELAS                                    */
+/* ------------------------------------------ */
 .tabela {
     width: 100%;
     border-collapse: collapse;
@@ -119,11 +87,11 @@ h2 {
 .tabela th {
     background: #44475a;
     padding: 10px;
+    text-align: left;
 }
 
 .tabela td {
     padding: 10px;
-    padding-left: 70px;
     background: #3b3d52;
     border-bottom: 1px solid #505267;
 }
@@ -132,18 +100,173 @@ h2 {
     background: #4b4d66;
 }
 
-/* Filtro */
-
+/* ------------------------------------------ */
+/* FILTROS                                    */
+/* ------------------------------------------ */
 .filtros {
     display: flex;
     gap: 15px;
     margin-bottom: 15px;
 }
 
-.filtros input, .filtros select {
+.filtros input,
+.filtros select {
     padding: 10px;
     background: #3e4157;
     border: none;
     border-radius: 5px;
     color: white;
+}
+
+/* ------------------------------------------ */
+/* FORMULÁRIO — SEÇÃO ADICIONAR PRODUTO       */
+/* ------------------------------------------ */
+
+#secaoAdicionar {
+    background: #2b2d42;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 40px auto;
+    max-width: 1000px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.3s ease;
+}
+
+#secaoAdicionar h2 {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #f8f8f2;
+    font-weight: bold;
+}
+
+/* GRID DO FORMULÁRIO */
+#formAdicionarProduto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 22px;
+}
+
+/* STRUCT DO INPUT */
+.linha-form {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    border: 2px solid #44475a;
+    background: #3b3d52;
+    color: #fff;
+    font-size: 16px;
+    transition: 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.linha-form label {
+
+    font-weight: bold;
+    font-size: 15px;
+    color: #cfcfcf;
+    width: 205px;
+}
+
+#distribuidor {
+    padding: 13px;
+    height: 60px;
+}
+
+/* INPUTS DARK MODERNOS */
+.linha-form input,
+.linha-form select {
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    background: #3b3d52;
+    color: #fff;
+    font-size: 16px;
+    transition: 0.25s ease;
+}
+
+#campoValidade {
+    display: flex;
+    width: 100%;
+    grid-column: span 2;
+    flex-direction: row;
+}
+
+
+/* FOCUS */
+.linha-form input:focus,
+.linha-form select:focus {
+    border-color: #8be9fd;
+    box-shadow: 0 0 8px rgba(139, 233, 253, 0.5);
+    outline: none;
+}
+
+/* CAMPO DE VALIDADE */
+#campoValidade {
+    display: none;
+}
+
+/* BOTÃO SALVAR */
+.btnSalvar {
+    grid-column: span 2;
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    background: #50fa7b;
+    color: #202020;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.25s ease;
+}
+
+.btnSalvar:hover {
+    background: #5eff8b;
+    transform: translateY(-2px);
+}
+
+.btnSalvar:active {
+    transform: scale(0.97);
+}
+
+/* ANIMAÇÃO */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.status {
+    font-weight: bold;
+}
+
+.status.longe {
+    color: #50fa7b;
+}
+
+.status.em-risco {
+    color: #f1fa8c;
+}
+
+.status.vencido {
+    color: #ff5555;
+}
+
+.col-md-4{
+        width: 155px;
+
+}
+
+.card-body h2{
+    margin: 0;
+    margin-top: 5px;
 }

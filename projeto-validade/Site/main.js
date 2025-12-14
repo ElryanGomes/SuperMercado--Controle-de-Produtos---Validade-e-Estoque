@@ -13,14 +13,12 @@ estoque.adicionarProduto(new ProdutoImperecivel("003", "Arroz 5kg", 22.90, 15, "
 // Trocas de Tela
 const secaoEstoque = document.getElementById("secaoEstoque");
 const secaoAdicionar = document.getElementById("secaoAdicionar");
-const secaoPertoVencer = document.getElementById("secaoPertoVencer");
-const secaoVencidos = document.getElementById("secaoVencidos");
+const secaoValidade = document.getElementById("secaoControleValidade");
 
 function mostrarTela(tela) {
     secaoEstoque.classList.add("hidden");
     secaoAdicionar.classList.add("hidden");
-    secaoPertoVencer.classList.add("hidden");
-    secaoVencidos.classList.add("hidden");
+    secaoValidade.classList.add("hidden");
 
     tela.classList.remove("hidden");
 }
@@ -35,41 +33,53 @@ document.getElementById("btnAdicionarProduto").addEventListener("click", () => {
     mostrarTela(secaoAdicionar);
     // console.log("abriu adicionar")
 });
-document.getElementById("btnPertoVencer").addEventListener("click", () => {
-    atualizarTabelaPertoVencer();
-    mostrarTela(secaoPertoVencer);
-    // console.log("abriu perto de vencer")
-});
-document.getElementById("btnVencidos").addEventListener("click", () => {
-    atualizarTabelaVencidos();
-    mostrarTela(secaoVencidos);
-    // console.log("abriu vencidos")
+document.getElementById("btnValidade").addEventListener("click", () => {
+    atualizarTabelaControleValidade();
+    mostrarTela(secaoValidade);
 });
 
 
 // Tela de Estoque
 function atualizarTabelaEstoque() {
     const corpo = document.getElementById("corpoTabelaProdutos");
+    const filtro = document.getElementById("filtroEstoque").value;
+    const termoBusca = document.getElementById("buscaNomeEstoque").value.toLowerCase();
+
     corpo.innerHTML = "";
 
-    estoque.verificarPerecivel(); // atualiza status
-
     estoque.produtos.forEach(p => {
+
+        if (filtro === "perecivel" && p.tipo !== "Perecivel") return;
+        if (filtro === "naoPerecivel" && p.tipo !== "Não Perecivel") return;
+
+        const termo = termoBusca.trim();
+        const seForNumero = /^[0-9]+$/.test(termo);
+
+        if (seForNumero) {
+            if (!p.codigo.includes(termo)) return;
+        } else {
+            if (!p.nome.toLowerCase().includes(termo.toLowerCase())) return;
+        }
+
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
             <td>${p.codigo}</td>
             <td>${p.nome}</td>
-            <td>${p.preco}</td>
+            <td>R$ ${Number(p.preco).toFixed(2)}</td>
             <td>${p.quantidade}</td>
             <td>${p.tipo}</td>
-            <td>${p.tipo === "perecivel" ? p.dataValidade : "-"}</td>
-            <td>${p.tipo === "perecivel" ? p.status : "-"}</td>
         `;
 
         corpo.appendChild(tr);
     });
 }
+document.getElementById("filtroEstoque")
+    .addEventListener("change", atualizarTabelaEstoque);
+
+document.getElementById("buscaNomeEstoque")
+    .addEventListener("input", atualizarTabelaEstoque);
+
 
 // Tela de Adicionar
 const dadosAdicionarForm = document.getElementById("formAdicionarProduto")
@@ -98,69 +108,78 @@ dadosAdicionarForm.addEventListener("submit", (evento) => {
         )
     }
 
-    // const tipoProduto = document.getElementById("tipoProduto");
-    // const campoValidade = document.getElementById("campoValidade");
-
-    // tipoProduto.addEventListener("change", function () {
-    //     if (this.value === "perecivel") {
-    //         campoValidade.style.display = "block";
-    //     } else {
-    //         campoValidade.style.display = "none";
-    //     }
-    // });
-
-
-estoque.adicionarProduto(novoProduto)
-atualizarTabelaEstoque()
-evento.target.reset();
+    estoque.adicionarProduto(novoProduto)
+    atualizarTabelaEstoque()
+    evento.target.reset();
 })
 
+document.addEventListener("DOMContentLoaded", () => {
+    const tipoProduto = document.getElementById("tipoProduto");
+    const campoValidade = document.getElementById("campoValidade");
 
-// Tela de Perto de Vencer
-function atualizarTabelaPertoVencer() {
-    const corpo = document.getElementById("tabelaPertoVencer");
+    campoValidade.style.display = "flex";
+
+    tipoProduto.addEventListener("change", () => {
+        if (tipoProduto.value === "perecivel") {
+            campoValidade.style.display = "flex";
+        }
+        if (tipoProduto.value === "imperecivel") {
+            campoValidade.style.display = "none";
+        }
+    });
+});
+
+
+// Tela de Controle de Validade
+function atualizarTabelaControleValidade() {
+    const corpo = document.getElementById("tabelaControleValidade");
+    const filtro = document.getElementById("filtroValidade").value;
+
     corpo.innerHTML = "";
 
     estoque.verificarPerecivel();
 
     estoque.produtos
-        .filter(p => p.tipo === "perecivel" && (p.status === "EM RISCO" || p.status === "PERTO DE VENCER"))
+        .filter(p => p.tipo === "Perecivel")
+        .filter(p => {
+            if (filtro === "todos") return true;
+            if (filtro === "ok") return p.status === "Longe";
+            if (filtro === "perto") return p.status === "Em Risco";
+            if (filtro === "vencido") return p.status === "Vencido";
+        })
         .forEach(p => {
             const validade = new Date(p.dataValidade);
             const hoje = new Date();
             const dias = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24));
 
             const tr = document.createElement("tr");
+
             tr.innerHTML = `
                 <td>${p.nome}</td>
                 <td>${p.dataValidade}</td>
-                <td>${dias} dias</td>
+                <td>${dias >= 0 ? dias + " dias" : "—"}</td>
+                <td class="status ${p.status.toLowerCase().replace(" ", "-")}">
+                    ${p.status}
+                </td>
             `;
 
             corpo.appendChild(tr);
         });
+
+    const pereciveis = estoque.produtos.filter(p => p.tipo === "Perecivel");
+
+    const longe = pereciveis.filter(p => p.status === "Longe").length;
+    const risco = pereciveis.filter(p => p.status === "Em Risco").length;
+    const vencido = pereciveis.filter(p => p.status === "Vencido").length;
+
+    document.getElementById("qtdLonge").innerText = longe;
+    document.getElementById("qtdRisco").innerText = risco;
+    document.getElementById("qtdVencidos").innerText = vencido;
 }
 
-
-// Tabela Vencidos
-function atualizarTabelaVencidos() {
-    const corpo = document.getElementById("tabelaVencidos");
-    corpo.innerHTML = "";
-
-    estoque.verificarPerecivel();
-
-    estoque.produtos
-        .filter(p => p.tipo === "perecivel" && p.status === "VENCIDO")
-        .forEach(p => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td>${p.nome}</td>
-                <td>${p.dataValidade}</td>
-                <td>${p.status}</td>
-            `;
-            corpo.appendChild(tr);
-        });
-}
+document.getElementById("filtroValidade").addEventListener("change", () => {
+    atualizarTabelaControleValidade();
+});
 
 
 atualizarTabelaEstoque();
