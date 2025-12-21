@@ -15,7 +15,6 @@ export class Produto {
         this.#tipo = "";
     }
 
-    // ===== GETTERS =====
     get codigo() { return this.#codigo; }
     get nome() { return this.#nome; }
     get preco() { return this.#preco; }
@@ -23,7 +22,6 @@ export class Produto {
     get distribuidor() { return this.#distribuidor; }
     get tipo() { return this.#tipo; }
 
-    // ===== SETTERS =====
     set codigo(valor) { this.#codigo = valor; }
     set nome(valor) { this.#nome = valor; }
     set preco(valor) {
